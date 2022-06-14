@@ -10,3 +10,6 @@ Project2/out
 Project2/__pycache__
 Project2/legacy.py
 Project2/torch_utils/
+Project2/ffhq-align.py
+Project2/test.sh
+Project2/projector.py
