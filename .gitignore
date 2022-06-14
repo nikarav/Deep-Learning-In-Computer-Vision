@@ -2,3 +2,11 @@
 data
 train
 output
+
+Project2/ffhq.pkl
+Project2/dnnlib
+Project2/generate.py
+Project2/out
+Project2/__pycache__
+Project2/legacy.py
+Project2/torch_utils/
