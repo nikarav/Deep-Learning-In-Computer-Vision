@@ -6,7 +6,7 @@ import torch
 @click.pass_context
 @click.option('--latent1', 'latent1', help='Path to latent space of the 1st image', required=True)
 @click.option('--latent2', 'latent2', help='Path to latent space of the 2nd image', required=True)
-@click.option('--per', 'percentage', help='How much to keep from 1st image, the rest is taken from the 2nd.', required=True)
+@click.option('--per', 'per', help='How much to keep from 1st image, the rest is taken from the 2nd.', required=True)
 @click.option('--outdir', help='Where to save the output latent space', type=str, required=True, metavar='DIR')
 def interpolation(
     ctx: click.Context,
@@ -20,8 +20,13 @@ def interpolation(
     ws_two = np.load(latent2)['w']
     ws_one = torch.tensor(ws_one, device=device)
     ws_two = torch.tensor(ws_two, device=device)
-    new_latent = torch.add(torch.mul(latent1, per), torch.mul(latent2, (1 - per)))
-    np.savez(f'{outdir}/joined_projected.npz', w=new_latent.unsqueeze(0).cpu().numpy())
+    per = float(per)
+    ws_one = torch.mul(ws_one, per)
+    ws_two = torch.mul(ws_two, (1 - per))
+    new_latent = ws_one.add(ws_two)
+    print(new_latent)
+    print(new_latent.unsqueeze(0).cpu().numpy())
+    np.savez(f'{outdir}/joined_projected.npz', w=new_latent.cpu().numpy())
     
 
 
