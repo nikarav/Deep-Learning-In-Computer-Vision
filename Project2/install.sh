@@ -42,6 +42,7 @@ python generate.py --outdir=${GENERATED_FOLDER} --trunc=1 --seeds=666-700 --netw
 COUNTER=0
 for file in $NOT_ALIGNED_FOLDER/*; do
     img_folder="${REC_NOT_ALIGNED_FOLDER}/image_${COUNTER+1}"
+    mkdir -p img_folder
     python projector.py --outdir=$img_folder --target=$file --network=ffhq.pkl
     let COUNTER++
 done
@@ -57,12 +58,13 @@ python ffhq-align.py -s $NOT_ALIGNED_FOLDER -d $ALIGNED_FOLDER
 COUNTER=0
 for file in $ALIGNED_FOLDER/*; do
     img_folder="${REC_ALIGNED_FOLDER}/image_${COUNTER+1}"
+    mdkir -p img_folder
     python projector.py --outdir=$img_folder --target=$file --network=ffhq.pkl
     let COUNTER++
 done
 
 
-#Step 3
+#Step 3 (for the first two images)
 python interpolation.py --latent1 "${REC_ALIGNED_FOLDER}/image_1/projected_w.npz" \
         --latent2 "${REC_ALIGNED_FOLDER}/image_2/projected_w.npz" \
         --per 0.5 --outdir $REC_ALIGNED_FOLDER

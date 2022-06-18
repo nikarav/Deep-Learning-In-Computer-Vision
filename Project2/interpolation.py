@@ -24,8 +24,6 @@ def interpolation(
     ws_one = torch.mul(ws_one, per)
     ws_two = torch.mul(ws_two, (1 - per))
     new_latent = ws_one.add(ws_two)
-    print(new_latent)
-    print(new_latent.unsqueeze(0).cpu().numpy())
     np.savez(f'{outdir}/joined_projected.npz', w=new_latent.cpu().numpy())
     
 
